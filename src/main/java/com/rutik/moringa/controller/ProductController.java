@@ -1,5 +1,6 @@
 package com.rutik.moringa.controller;
 
+import com.rutik.moringa.dto.ProductRequestDTO;
 import com.rutik.moringa.entity.ProductEntity;
 import com.rutik.moringa.service.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductEntity createProduct(){
-        return service.addProduct();
+    public ProductEntity createProduct(
+            @RequestBody ProductRequestDTO dto){
+        return service.addProduct(dto);
     }
 }

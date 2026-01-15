@@ -1,5 +1,6 @@
 package com.rutik.moringa.service;
 
+import com.rutik.moringa.dto.ProductRequestDTO;
 import com.rutik.moringa.entity.ProductEntity;
 import com.rutik.moringa.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,8 @@ public class ProductService {
         this.repo = repo;
     }
 
-    public ProductEntity addProduct(){
-        ProductEntity product = new ProductEntity("moringa powder",299D);
+    public ProductEntity addProduct(ProductRequestDTO dto){
+        ProductEntity product = new ProductEntity(dto.getName(), dto.getPrice());
         return repo.save(product);
     }
 }
