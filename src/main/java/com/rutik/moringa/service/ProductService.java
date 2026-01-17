@@ -3,6 +3,7 @@ package com.rutik.moringa.service;
 import com.rutik.moringa.dto.ProductRequestDTO;
 import com.rutik.moringa.dto.ProductResponseDTO;
 import com.rutik.moringa.entity.ProductEntity;
+import com.rutik.moringa.exception.ProductNotFoundException;
 import com.rutik.moringa.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,17 @@ public class ProductService {
                         p.getPrice()
                 ))
                 .toList();
+    }
+
+    public ProductResponseDTO getProductById(Long id) {
+        ProductEntity product = repo.findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException(
+                                "Product not found with id"+id));
+        return new ProductResponseDTO(
+                product.getId(),
+                product.getName(),
+                product.getPrice()
+        );
     }
 }
