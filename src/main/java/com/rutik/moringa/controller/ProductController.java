@@ -7,6 +7,7 @@ import com.rutik.moringa.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 @RestController
 @RequestMapping("/products")
@@ -32,4 +33,18 @@ public class ProductController {
     public ProductResponseDTO getProductById(@PathVariable Long id){
         return service.getProductById(id);
     }
+
+    @PutMapping("/{id}")
+    public ProductResponseDTO updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductRequestDTO dto){
+        return service.updateProduct(id,dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable Long id){
+        service.deleteProduct(id);
+        return "Product deleted successfully";
+    }
+
 }

@@ -47,4 +47,32 @@ public class ProductService {
                 product.getPrice()
         );
     }
+
+    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO dto) {
+
+        ProductEntity product = repo.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: "+ id));
+
+        product.setName(dto.getName());
+        product.setPrice(dto.getPrice());
+
+        ProductEntity updated = repo.save(product);
+
+        return new ProductResponseDTO(
+                updated.getId(),
+                updated.getName(),
+                updated.getPrice()
+        );
+
+    }
+
+    public void deleteProduct(Long id) {
+
+        ProductEntity product = repo.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(
+                        "product not found with id: " +id));
+
+
+        repo.delete(product);
+    }
 }
