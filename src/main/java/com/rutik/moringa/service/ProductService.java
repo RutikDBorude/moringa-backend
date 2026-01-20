@@ -5,6 +5,8 @@ import com.rutik.moringa.dto.ProductResponseDTO;
 import com.rutik.moringa.entity.ProductEntity;
 import com.rutik.moringa.exception.ProductNotFoundException;
 import com.rutik.moringa.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,17 +25,13 @@ public class ProductService {
         return repo.save(product);
     }
 
-    public List<ProductResponseDTO> getAllProducts(){
-
-        List<ProductEntity> products = repo.findAll();
-
-        return products.stream()
+    public Page<ProductResponseDTO> getProducts(Pageable pageable) {
+        return repo.findAll(pageable)
                 .map(p -> new ProductResponseDTO(
                         p.getId(),
                         p.getName(),
                         p.getPrice()
-                ))
-                .toList();
+                ));
     }
 
     public ProductResponseDTO getProductById(Long id) {
@@ -75,4 +73,6 @@ public class ProductService {
 
         repo.delete(product);
     }
+
+
 }

@@ -41,5 +41,5 @@ public class ProductEntity {
     public void setPrice(double price) {
         this.price = price;
     }
-    //hii cheking to updated email commit
+
 }

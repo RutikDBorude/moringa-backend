@@ -4,6 +4,9 @@ import com.rutik.moringa.dto.ProductRequestDTO;
 import com.rutik.moringa.dto.ProductResponseDTO;
 import com.rutik.moringa.entity.ProductEntity;
 import com.rutik.moringa.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,13 +23,13 @@ public class ProductController {
 
     @PostMapping
     public ProductEntity createProduct(
-            @RequestBody ProductRequestDTO dto){
+            @Valid @RequestBody ProductRequestDTO dto){
         return service.addProduct(dto);
     }
 
     @GetMapping
-    public List<ProductResponseDTO> getProducts(){
-        return service.getAllProducts();
+    public Page<ProductResponseDTO> getProducts(Pageable pageable){
+        return service.getProducts(pageable);
     }
 
     @GetMapping("/{id}")
@@ -46,5 +49,7 @@ public class ProductController {
         service.deleteProduct(id);
         return "Product deleted successfully";
     }
+
+
 
 }
