@@ -49,6 +49,21 @@ public class ProductController {
         service.deleteProduct(id);
         return "Product deleted successfully";
     }
+    @GetMapping("/search")
+    public List<ProductResponseDTO> searchByName(
+            @RequestParam String name){
+        return service.searchByName(name);
+    }
+
+    @GetMapping("/filter")
+    public List<ProductResponseDTO> filterByPrice(
+            @RequestParam double minPrice,
+            @RequestParam double maxPrice){
+
+        return service.filterByPrice(minPrice,maxPrice);
+    }
+
+
 
 
 
