@@ -25,13 +25,19 @@ public class ProductService {
         return repo.save(product);
     }
 
-    public Page<ProductResponseDTO> getProducts(Pageable pageable) {
-        return repo.findAll(pageable)
-                .map(p -> new ProductResponseDTO(
-                        p.getId(),
-                        p.getName(),
-                        p.getPrice()
-                ));
+    public Page<ProductResponseDTO> getProducts(String name,Pageable pageable) {
+        Page<ProductEntity> page;
+
+        if(name != null && !name.isBlank()){
+            page = repo.findByNameContainingIgnoreCase(name, pageable);
+        }else{
+            page = repo.findAll(pageable);
+        }
+        return page.map(p -> new ProductResponseDTO(
+                p.getId(),
+                p.getName(),
+                p.getPrice()
+        ));
     }
 
     public ProductResponseDTO getProductById(Long id) {
@@ -73,28 +79,7 @@ public class ProductService {
 
         repo.delete(product);
     }
-    public List<ProductResponseDTO> searchByName(String name){
 
-        return repo.findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(p -> new ProductResponseDTO(
-                        p.getId(),
-                        p.getName(),
-                        p.getPrice()
-                ))
-                .toList();
-    }
-    public List<ProductResponseDTO> filterByPrice(double min,double max){
-
-        return repo.findByPriceBetween(min, max)
-                .stream()
-                .map(p -> new ProductResponseDTO(
-                        p.getId(),
-                        p.getName(),
-                        p.getPrice()
-                ))
-                .toList();
-    }
 
 
 }

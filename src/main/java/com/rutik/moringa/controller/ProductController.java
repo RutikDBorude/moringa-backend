@@ -28,8 +28,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<ProductResponseDTO> getProducts(Pageable pageable){
-        return service.getProducts(pageable);
+    public Page<ProductResponseDTO> getProducts(
+            @RequestParam(required = false) String name,Pageable pageable)
+    {
+        return service.getProducts(name,pageable);
     }
 
     @GetMapping("/{id}")
@@ -49,19 +51,7 @@ public class ProductController {
         service.deleteProduct(id);
         return "Product deleted successfully";
     }
-    @GetMapping("/search")
-    public List<ProductResponseDTO> searchByName(
-            @RequestParam String name){
-        return service.searchByName(name);
-    }
 
-    @GetMapping("/filter")
-    public List<ProductResponseDTO> filterByPrice(
-            @RequestParam double minPrice,
-            @RequestParam double maxPrice){
-
-        return service.filterByPrice(minPrice,maxPrice);
-    }
 
 
 

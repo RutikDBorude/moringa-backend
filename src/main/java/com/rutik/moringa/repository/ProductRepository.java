@@ -8,11 +8,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
 
-    @Override
-    Page<ProductEntity> findAll(Pageable pageable);
 
-
-    List<ProductEntity> findByNameContainingIgnoreCase(String name);
-
-    List<ProductEntity> findByPriceBetween(double min,double max);
+    Page<ProductEntity> findByNameContainingIgnoreCase(String name,Pageable pageable);
 }
