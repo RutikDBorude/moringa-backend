@@ -15,6 +15,9 @@ public class ProductEntity {
     private Double price;
 
     //required by Jpa (no args constructor)
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
     public ProductEntity() {}
 
     public ProductEntity(String name,Double price){
@@ -41,5 +44,7 @@ public class ProductEntity {
     public void setPrice(double price) {
         this.price = price;
     }
+
+
 
 }
