@@ -4,17 +4,26 @@ import com.rutik.moringa.dto.UserLoginDTO;
 import com.rutik.moringa.dto.UserRegisterDTO;
 import com.rutik.moringa.entity.UserEntity;
 import com.rutik.moringa.repository.UserRepository;
+import com.rutik.moringa.util.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepo;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder encoder;
+    private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepo) {
+
+    public AuthService(UserRepository userRepo,
+                       BCryptPasswordEncoder encoder,
+                       JwtUtil jwtUtil) {
         this.userRepo = userRepo;
+        this.encoder = encoder;
+        this.jwtUtil = jwtUtil;
+
     }
 
     public void register(UserRegisterDTO dto){
@@ -30,7 +39,7 @@ public class AuthService {
         userRepo.save(user);
     }
 
-    public void login(UserLoginDTO dto){
+    public String login(UserLoginDTO dto){
 
         UserEntity user = userRepo.findByEmail(dto.getEmail())
                 .orElseThrow(() ->
@@ -43,6 +52,7 @@ public class AuthService {
         if(!matches){
             throw new RuntimeException("Invalid Email or Password");
         }
+        return jwtUtil.generateToken(user.getEmail());
 
     }
 }

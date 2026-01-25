@@ -4,6 +4,7 @@ import com.rutik.moringa.dto.ProductRequestDTO;
 import com.rutik.moringa.dto.ProductResponseDTO;
 import com.rutik.moringa.entity.ProductEntity;
 import com.rutik.moringa.service.ProductService;
+import com.rutik.moringa.util.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +17,11 @@ import java.util.SimpleTimeZone;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService service;
+    private final JwtUtil jwtUtil;
 
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service, JwtUtil jwtUtil) {
         this.service = service;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping
@@ -51,6 +54,17 @@ public class ProductController {
         service.deleteProduct(id);
         return "Product deleted successfully";
     }
+
+    @GetMapping("/secure-test")
+    public String secureTest(
+            @RequestHeader("Authorization") String authHeader){
+
+        String token = authHeader.replace("Bearer","");
+        String email = jwtUtil.extractEmail(token);
+
+        return "Access granted for user: " + email;
+    }
+
 
 
 
