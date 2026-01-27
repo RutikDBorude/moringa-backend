@@ -35,7 +35,7 @@ public class AuthService {
 
         String hashed = encoder.encode(dto.getPassword());
 
-        UserEntity user = new UserEntity(dto.getEmail(), hashed);
+        UserEntity user = new UserEntity(dto.getEmail(), hashed,"USER");
         userRepo.save(user);
     }
 
@@ -52,7 +52,10 @@ public class AuthService {
         if(!matches){
             throw new RuntimeException("Invalid Email or Password");
         }
-        return jwtUtil.generateToken(user.getEmail());
+        return jwtUtil.generateToken(
+                user.getEmail(),
+                user.getRole()
+        );
 
     }
 }
