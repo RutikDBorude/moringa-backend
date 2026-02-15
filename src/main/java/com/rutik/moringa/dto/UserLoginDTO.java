@@ -2,7 +2,7 @@ package com.rutik.moringa.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import org.jspecify.annotations.Nullable;
+
 
 public class UserLoginDTO {
 
@@ -12,6 +12,11 @@ public class UserLoginDTO {
 
     @NotBlank
     private String password;
+
+    public UserLoginDTO(String email,String password){
+        this.email = email;
+        this.password = password;
+    }
 
     public String getEmail(){ return email; }
 

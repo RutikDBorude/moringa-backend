@@ -12,7 +12,20 @@ public class UserRegisterDTO {
     @NotBlank
     private String password;
 
-    public String getEmail(){ return email; };
-    public String getPassword(){ return password;}
+    public UserRegisterDTO(){
+
+    }
+
+    public UserRegisterDTO(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public String getPassword(){
+        return password;
+    }
 
 }
